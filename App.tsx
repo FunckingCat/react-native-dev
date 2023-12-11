@@ -1,118 +1,63 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+  StyleSheet, View, Text
 } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import PomadoroScreen from './src/screens/PomadoroScreen'
+import ProfileScreen from './src/screens/ProfileScreen'
+import StatisticsScreen from './src/screens/StatisticsScreen'
+import NotificationsScreen from './src/screens/NotificationsScreen'
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+const NativeStack = createNativeStackNavigator();
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const HomeStackScreen = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Pomadoro" component={PomadoroScreen} />
+    <Stack.Screen name="Statistics" component={StatisticsScreen} />
+    <Stack.Screen name="Profile" component={ProfileScreen} />
+    <Stack.Screen name="Notifications" component={NotificationsScreen} />
+  </Stack.Navigator>
+);
+
+const AnotherStackScreen = () => (
+  <NativeStack.Navigator>
+    <NativeStack.Screen name="Pomadoro" component={PomadoroScreen} />
+    <NativeStack.Screen name="Statistics" component={StatisticsScreen} />
+    <NativeStack.Screen name="Profile" component={ProfileScreen} />
+    <NativeStack.Screen name="Notifications" component={NotificationsScreen} />
+  </NativeStack.Navigator>
+);
+
+const TabStackScreen = () => (
+  <Tab.Navigator>
+    <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Screen name="Notifications" component={NotificationsScreen} />
+  </Tab.Navigator>
+);
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-             <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={HomeStackScreen} />
+        <Drawer.Screen name="NativeHome" component={AnotherStackScreen} />
+        <Drawer.Screen name="Settings" component={TabStackScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+
 });
 
 export default App;
