@@ -1,38 +1,86 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { Slider } from 'react-native-awesome-slider';
+import { useSharedValue } from 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 export default () => {
 
-	const [circleCount, setCircleCount] = useState('3');
-	const [breathDuration, setBreathDuration] = useState('5');
-  
-	const saveSettings = () => {
-	  console.log('Настройки сохранены:', { circleCount, breathDuration });
-	};
+	const lapsProgress = useSharedValue(4);
+	const lapsMin = useSharedValue(0);
+	const lapsMax = useSharedValue(10);
+
+	const activeProgress = useSharedValue(60);
+	const activeMin = useSharedValue(0);
+	const activeMax = useSharedValue(120);
+
+	const activeBreathProgress = useSharedValue(2);
+	const activeBreathMin = useSharedValue(0);
+	const activeBreathMax = useSharedValue(4);
+
+	const inhaleProgress = useSharedValue(30);
+	const inhaleMin = useSharedValue(0);
+	const inhaleMax = useSharedValue(120);
+
+	const exhaleProgress = useSharedValue(60);
+	const exhaleMin = useSharedValue(0);
+	const exhaleMax = useSharedValue(120);
   
 	return (
 		<>
+		<GestureHandlerRootView style={{ flex: 1 }}>
 			<View style={styles.container}>
+
 				<View style={styles.inputContainer}>
-					<Text style={styles.label}>Laps ammount:</Text>
-					<TextInput
-					style={styles.input}
-					value={circleCount}
-					onChangeText={(text) => setCircleCount(text)}
-					keyboardType="numeric"
-					/>
+					<Text style={styles.label}>Laps ammount: {lapsProgress.value}</Text>
+					<Slider
+						style={styles.progress}
+						progress={lapsProgress}
+						minimumValue={lapsMin}
+						maximumValue={lapsMax}
+						/>
 				</View>
 
 				<View  style={styles.inputContainer}>
-					<Text style={styles.label}>Active faze duration (seconds):</Text>
-					<TextInput
-					style={styles.input}
-					value={breathDuration}
-					onChangeText={(text) => setBreathDuration(text)}
-					keyboardType="numeric"
-					/>
+					<Text style={styles.label}>Active faze duration (seconds): {activeProgress.value}</Text>
+					<Slider
+						style={styles.progress}
+						progress={activeProgress}
+						minimumValue={activeMin}
+						maximumValue={activeMax}
+						/>
+				</View>
+
+				<View  style={styles.inputContainer}>
+					<Text style={styles.label}>Active faze breath duration (seconds): {activeBreathProgress.value}</Text>
+					<Slider
+						style={styles.progress}
+						progress={activeBreathProgress}
+						minimumValue={activeBreathMin}
+						maximumValue={activeBreathMax}
+						/>
+				</View>
+
+				<View  style={styles.inputContainer}>
+					<Text style={styles.label}>Inhale hold faze duration (seconds): {inhaleProgress.value}</Text>
+					<Slider
+						style={styles.progress}
+						progress={inhaleProgress}
+						minimumValue={inhaleMin}
+						maximumValue={inhaleMax}
+						/>
+				</View>
+
+				<View  style={styles.inputContainer}>
+					<Text style={styles.label}>Exhale hold faze duration (seconds): {exhaleProgress.value}</Text>
+					<Slider
+						style={styles.progress}
+						progress={exhaleProgress}
+						minimumValue={exhaleMin}
+						maximumValue={exhaleMax}
+						/>
 				</View>
 		
 				<View style = {styles.controlsContainer}>
@@ -44,6 +92,7 @@ export default () => {
 					</TouchableOpacity>
 				</View>
 			</View>
+        </GestureHandlerRootView>
 		</>
 	);
 };
@@ -56,7 +105,7 @@ const styles = StyleSheet.create({
 	},
 	label: {
 	  fontSize: 16,
-	  marginBottom: 8,
+	  marginBottom: 18,
 	},
 	input: {
 	  height: 40,
@@ -68,7 +117,7 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		marginVertical: 10,
 		backgroundColor: '#fff',
-		padding: 10,
+		padding: 20,
 		borderRadius: 15
 	},
 	controlsContainer: {
@@ -77,6 +126,9 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between'
+	},
+	progress: {
+
 	}
   });
   
